@@ -23,16 +23,12 @@ class MainPanel extends Component {
     }
 
     message() {
-        connect.send('VKWebAppGetAuthToken', {'app_id': 7133183, 'scope': 'friends,status,messages'})
+        connect.send('VKWebAppGetAuthToken', {'app_id': 7133183, 'scope': 'messages'})
             .then(res => {
                 this.setState({
-                    token: res
+                    token: this.props.token
                 });
             });
-
-        connect.subscribe((e) => {
-            console.log(e);
-        });
     }
 
     render() {
@@ -82,27 +78,8 @@ class MainPanel extends Component {
     }
 
     readQRCode = () => {
-        connect.subscribe((e) => {
-            switch (e.detail.type) {
-                case 'VKWebAppOpenQRResult':
-                    this.checkUserLocation(e.detail.data);
-                    break;
-                case 'VKWebAppOpenQRFailed':
-                    break;
-                default:
-                    console.log(e.detail.type);
-            }
-        });
         connect.send("VKWebAppOpenQR", {});
     };
-
-    checkUserLocation = (data) => {
-        if (data.hasOwnProperty('qr_data')) {
-
-        } else {
-
-        }
-    }
 }
 
 export default MainPanel;

@@ -28,16 +28,23 @@ class App extends Component {
                     this.setState({ fetchedUser: e.detail.data });
                     break;
                 case 'VKWebAppAccessTokenReceived':
-                    console.log(e.detail.data.access_token);
+                    alert(e.detail.data.access_token);
                     this.setState({
                         token: e.detail.data.access_token
                     });
+                    break;
+                case 'VKWebAppAccessTokenFailed':
+                    alert(JSON.stringify(e.detail.data.error_data, null, 4));
+                    break;
+                case 'VKWebAppOpenQRResult':
+                    this.checkUserLocation(e.detail.data);
+                    break;
+                case 'VKWebAppOpenQRFailed':
                     break;
                 default:
                     console.log(e.detail.type);
             }
         });
-        // connect.send('VKWebAppGetAuthToken', {'app_id': 7133183, 'scope': 'friends,status,messages'});
         connect.send('VKWebAppGetUserInfo', {}).then(data => this.getRating());
 
         this.getOrganizations().then(res => {
@@ -81,7 +88,7 @@ class App extends Component {
             {
                 headers: {
                     "Content-Type": "application/json",
-                    Authorization: "Bearer ya29.Il-CB5eOPVZN_M9GiLTGLlBqXeeALa2h7IQ0SSHYaXF7jL35zi7dBIANvusXJPP5KLoto6kn-l-8a7upsi1I_dLxI0aYNjw-Ie6vf0290ldq4OsOe8nWHtnnUuNyFQn1dw"
+                    Authorization: "Bearer ya29.GluCB0Pnaksvufs5IU8khmNbovTtJQVkrzz3RN-xfXwPLjUsE3I7WQptFIiP8kNzUafDzQItlmt54AGRwghCbBd6BhN-IQSM8dCCI0-bZphjbfEQMQXOJToCgI_S"
                 }
             });
         this.sheetsdata = await request.json();
@@ -92,6 +99,14 @@ class App extends Component {
     getRating = async () => {
         const request = await fetch('');
     };
+
+    checkUserLocation = (data) => {
+        if (data.hasOwnProperty('qr_data')) {
+            alert(data.qr_data);
+        } else {
+
+        }
+    }
 }
 
 export default App;
