@@ -1,0 +1,7 @@
+.rating {
+    color: var(--dynamic_orange);
+}
+
+.rating svg{
+    fill: var(--dynamic_orange);
+}

@@ -1,9 +1,21 @@
 import React, {Component} from 'react';
 import '@vkontakte/vkui/dist/vkui.css';
-import {Panel, PanelHeader, List, Div, Button, Group, ListItem, Avatar} from '@vkontakte/vkui';
+import {
+    Panel,
+    PanelHeader,
+    List,
+    Button,
+    Group,
+    ListItem,
+    Avatar,
+    Cell,
+    Separator
+} from '@vkontakte/vkui';
 import Icon24Camera from '@vkontakte/icons/dist/24/camera';
+import Icon24FavoriteOutline from '@vkontakte/icons/dist/24/favorite_outline';
 import Organization from "../components/Organization";
 import connect from "@vkontakte/vkui-connect";
+import './MainPanel.css';
 
 class MainPanel extends Component {
 
@@ -49,13 +61,16 @@ class MainPanel extends Component {
                 <Group title="">
                     <ListItem
                         before={fetchedUser.photo_200 ? <Avatar src={fetchedUser.photo_200}/> : null}
-                        description={fetchedUser.city && fetchedUser.city.title ? `${fetchedUser.city.title} 110 points` : '110 points'}
+                        description={fetchedUser.city && fetchedUser.city.title ? `${fetchedUser.city.title}` : ''}
                     >
                         {`${fetchedUser.first_name} ${fetchedUser.last_name}`}
                     </ListItem>
-                    <Div>
-                        <Button before={<Icon24Camera/>} size="l" onClick={() => this.readQRCode()}>Считать QR-code</Button>
-                    </Div>
+                </Group>}
+
+                {this.props.fetchedUser && <Group>
+                    <Cell> <Button before={<Icon24Camera/>} size="l" onClick={() => this.readQRCode()}>Считать QR-code</Button></Cell>
+                    <Separator/>
+                    <Cell before={<Icon24FavoriteOutline className="rating" />}><span className="rating">1670</span></Cell>
                 </Group>}
 
                 <Group title="Организации">
@@ -85,8 +100,11 @@ class MainPanel extends Component {
     };
 
     checkUserLocation = (data) => {
-        data.qr_data ?
-        alert("Запрос на соседний столик") : alert('нет параметров');
+        if (data.hasOwnProperty('qr_data')) {
+
+        } else {
+
+        }
     }
 }
 
