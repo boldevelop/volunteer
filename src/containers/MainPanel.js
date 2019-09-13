@@ -29,7 +29,7 @@ class MainPanel extends Component {
     }
 
     message() {
-        connect.send('VKWebAppGetAuthToken', {"app_id": 7133183, "scope": "friends,status,messages"});   
+        //connect.send('VKWebAppGetAuthToken', {"app_id": 7133183, "scope": "friends,status,messages"});   
         connect.subscribe((e) => {
             console.log(e);
         });
