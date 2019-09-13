@@ -1,0 +1,30 @@
+{
+  "name": "volunteer",
+  "version": "1.0.0",
+  "private": true,
+  "homepage": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "cross-env PORT=10888 react-scripts start",
+    "build": "react-scripts build"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "MIT",
+  "devDependencies": {
+    "cross-env": "^5.2.0",
+    "react-hot-loader": "^4.9.0",
+    "react-scripts": "^2.1.8"
+  },
+  "dependencies": {
+    "@vkontakte/icons": "^1.8.3",
+    "@vkontakte/vkui": "^2.30.2",
+    "@vkontakte/vkui-connect": "^1.5.4",
+    "babel-eslint": "^9.0.0",
+    "chalk": "^2.4.2",
+    "core-js": "^3.1.4",
+    "prop-types": "^15.7.2",
+    "react": "^16.8.6",
+    "react-dom": "^16.8.6"
+  }
+}
