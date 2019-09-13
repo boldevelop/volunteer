@@ -29,7 +29,12 @@ class App extends Component {
             }
         });
         connect.send('VKWebAppGetUserInfo', {});
-        this.getOrganizations();
+
+        this.getOrganizations().then(res => {
+            this.setState({
+                organizations: res.values
+            })
+        });
     }
 
     go = (e) => {
@@ -65,9 +70,7 @@ class App extends Component {
             });
         this.sheetsdata = await request.json();
         console.log(this.sheetsdata);
-        this.setState({
-            organizations: this.sheetsdata.values
-        });
+        return this.sheetsdata;
     }
 }
 
