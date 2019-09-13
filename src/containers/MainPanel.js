@@ -19,29 +19,14 @@ import './MainPanel.css';
 
 class MainPanel extends Component {
 
-    componentWillMount() {
-    }
-
     componentDidMount() {
-        connect.subscribe((e) => {
-            switch (e.detail.type) {
-                case 'VKWebAppGetUserInfoResult':
-                    console.log(e.detail.data);
-                    //this.setState({fetchedUser: e.detail.data});
-                    break;
-                case 'VKWebAppAccessTokenReceived':
-                    console.log(e.detail.data.access_token);
-                    //this.setState({authToken: e.detail.data.access_token});
-                    break;
-                default:
-                    console.log(e.detail.type);
-            }
-        });
-        connect.send('VKWebAppGetAuthToken', {'app_id': 7133183, 'scope': 'friends,status,messages'});
     }
 
     message() {
-        //connect.send('VKWebAppGetAuthToken', {"app_id": 7133183, "scope": "friends,status,messages"});   
+        connect.send('VKWebAppGetAuthToken', {'app_id': 7133183, 'scope': 'friends,status,messages'});
+        this.setState({
+            token: this.props.token
+        });
         connect.subscribe((e) => {
             console.log(e);
         });
@@ -75,6 +60,7 @@ class MainPanel extends Component {
 
                 <Group>
                     <Div>
+                        {this.props.token ? this.props.token : 'token'}
                         <Button size="xl" level="2" onClick={this.props.go} data-to="aboutPanel">
                             Туториал
                         </Button>
