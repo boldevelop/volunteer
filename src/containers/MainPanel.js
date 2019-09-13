@@ -25,6 +25,8 @@ class MainPanel extends Component {
     render() {
         const fetchedUser = this.props.fetchedUser;
         const organizations = this.props.organizations;
+        const rating = this.props.rating;
+        const go = this.props.go;
 
         return (
             <Panel id={this.props.id}>
@@ -32,7 +34,7 @@ class MainPanel extends Component {
 
                 </PanelHeader>
 
-                {this.props.fetchedUser &&
+                {fetchedUser &&
                 <Group title="">
                     <ListItem
                         before={fetchedUser.photo_200 ? <Avatar src={fetchedUser.photo_200}/> : null}
@@ -42,17 +44,18 @@ class MainPanel extends Component {
                     </ListItem>
                 </Group>}
 
-                {this.props.fetchedUser && <Group>
+                {fetchedUser && <Group>
                     <Cell><Button before={<Icon24Camera/>} size="l" onClick={() => this.readQRCode()}>Считать QR-code</Button></Cell>
                     <Separator/>
-                    <Rating rating={this.props.rating} />
+                    <Rating rating={rating} />
                 </Group>}
 
                 <Group>
                     <Div>
-                        <Button size="xl" level="2" onClick={this.props.go} data-to="aboutPanel">
+                        <Button size="xl" level="2" onClick={go} data-to="aboutPanel">
                             Туториал
                         </Button>
+                        <Button onClick={() => this.checkUserLocation()}>sdfsdf</Button>
                     </Div>
                 </Group>
 
@@ -70,6 +73,16 @@ class MainPanel extends Component {
     readQRCode = () => {
         connect.send("VKWebAppOpenQR", {});
     };
+
+    checkUserLocation = async () => {
+        const url = `http://kritbots.ru/?ul=123&lat=123`;
+        alert(url);
+        const resp = await fetch(url, {
+            method: 'get',
+        });
+        const data = await resp.json();
+        console.log(data);
+    }
 }
 
 export default MainPanel;

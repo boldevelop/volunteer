@@ -35,7 +35,9 @@ class App extends Component {
                     console.log(e.detail.type);
             }
         });
-        connect.send('VKWebAppGetUserInfo', {}).then(data => this.getRating());
+        connect.send('VKWebAppGetUserInfo', {}).then(data => {
+            this.getRating();
+        });
 
         this.getOrganizations().then(res => {
             this.setState({
@@ -45,7 +47,6 @@ class App extends Component {
     }
 
     go = (e) => {
-        console.log(e.currentTarget.dataset.to);
         this.setState({ activePanel: e.currentTarget.dataset.to })
     };
 
@@ -78,7 +79,7 @@ class App extends Component {
             {
                 headers: {
                     "Content-Type": "application/json",
-                    Authorization: "Bearer ya29.GluCBw4oVVauD2zhN4pzjFDfX5SY-WXiGcJqSVTKUPTsKf-PcvGM9UkD-8M2zw4pSge4p9z1LhSisXOvHzK1BKE-BOhNQNfERlzz63GweM1vxFmiIllgHMkBsBzX"
+                    Authorization: "Bearer ya29.GluCB_EwfUueFRaPMKUXKJc8dCyGn4SYyC1dCSOuOyvsMMiqfnecP-qLzuW5kOPab7-ynE98N-KEKRitd0yqMQRSpIXlfBWOn5UBrj4vG_0X8oaTyhy1G-n9MNi1"
                 }
             });
         this.sheetsdata = await request.json();
@@ -87,18 +88,24 @@ class App extends Component {
     };
 
     getRating = async () => {
+        setInterval(() => {
+            this.setState({
+                rating: 3600
+            })
+        }, 4000);
         const request = await fetch('');
     };
 
     checkUserLocation = async data => {
         if (data.hasOwnProperty('qr_data')) {
             const coord = data.qr_data.split(',');
-            const url = `http://127.0.0.1:8000/api/geolocation/calc/${coord[0].trim()}/${coord[1].trim()}`;
+            const url = `https://kritbots.ru/${coord[0].trim()}/${coord[1].trim()}`;
             alert(url);
             await fetch(url).then(res => {
-                if (res === 'OK') {
-
-                }
+                console.log(res);
+                // if (res === 'OK') {
+                //
+                // }
             })
         } else {
 
