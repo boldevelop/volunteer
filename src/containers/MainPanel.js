@@ -1,6 +1,8 @@
 import React, {Component} from 'react';
 import '@vkontakte/vkui/dist/vkui.css';
 import {Panel, PanelHeader, List, Cell, Group, ListItem, Avatar} from '@vkontakte/vkui';
+import '../components/Organization';
+import Organization from "../components/Organization";
 
 class MainPanel extends Component {
 
@@ -35,15 +37,11 @@ class MainPanel extends Component {
                             тестик
                         </Cell>
                     </List>
-
+                    <List>
                     {organizations && organizations.map( (org,i) => (
-                        <List key={i}>
-                            <Cell multiline>
-                                {org[0]}
-                            </Cell>
-                        </List>
+                        <Organization key={i} info={org}/>
                     ))}
-
+                    </List>
                 </Group>
             </Panel>
         );
