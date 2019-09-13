@@ -12,14 +12,13 @@
   },
   "devDependencies": {
     "cross-env": "^5.2.0",
-    "gh-pages": "^2.1.1",
-    "react-hot-loader": "^4.9.0",
-    "react-scripts": "^2.1.8"
+    "react-hot-loader": "^4.9.0"
   },
   "dependencies": {
     "@vkontakte/icons": "^1.8.3",
     "@vkontakte/vk-connect": "^1.5.5",
     "@vkontakte/vkui": "^2.30.2",
+    "gh-pages": "^2.1.1",
     "@vkontakte/vkui-connect": "^1.5.4",
     "@vkontakte/vkui-connect-promise": "^0.2.1",
     "babel-eslint": "^9.0.0",
@@ -27,7 +26,8 @@
     "core-js": "^3.1.4",
     "prop-types": "^15.7.2",
     "react": "^16.8.6",
-    "react-dom": "^16.8.6"
+    "react-dom": "^16.8.6",
+    "react-scripts": "^2.1.8"
   },
   "browserslist": [
     ">0.2%",

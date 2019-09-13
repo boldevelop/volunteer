@@ -1,11 +1,11 @@
 import React, {Component} from 'react';
 import { ConfigProvider, Root, View } from '@vkontakte/vkui';
-import vkConnect from '@vkontakte/vk-connect';
+import VKConnect from '@vkontakte/vkui-connect';
 import MainPanel from './MainPanel';
 import AboutPanel from "./AboutPanel";
 import connect from '@vkontakte/vkui-connect-promise';
 
-const isWebView = vkConnect.isWebView();
+const isWebView = VKConnect.isWebView();
 
 class App extends Component {
 
@@ -21,6 +21,9 @@ class App extends Component {
     }
 
     componentWillMount() {
+        VKConnect.subscribe(e => console.log(e));
+        VKConnect.send("VKWebAppInit", {});
+
         connect.subscribe((e) => {
             switch (e.detail.type) {
                 case 'VKWebAppGetUserInfoResult':
@@ -35,6 +38,7 @@ class App extends Component {
                     console.log(e.detail.type);
             }
         });
+
         connect.send('VKWebAppGetUserInfo', {}).then(data => {
             this.getRating();
         });
@@ -93,7 +97,7 @@ class App extends Component {
                 rating: 3600
             })
         }, 4000);
-        const request = await fetch('');
+        // await fetch('');
     };
 
     checkUserLocation = async data => {

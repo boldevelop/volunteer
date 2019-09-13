@@ -7,7 +7,7 @@ const Organization = props => (
         <Div style={{background: '#eee', borderRadius: '7px', borderBottom: '1px solid #5181b8'}}>
             <Div style={{display: 'flex', justifyContent: 'space-between',alignItems: 'stretch', background: '#eee', padding: '0'}}>
                 <Div style={{background: '#eee', paddingLeft: '0', paddingRight: '0'}}><b>{props.info[0]}</b></Div>
-                <Div><img style={{width: '90px'}} src={ props.info[2] } /></Div>
+                <Div><img style={{width: '90px'}} src={ props.info[2] } alt="картинка" /></Div>
             </Div>
             <Div style={{background: '#4bb34b26',borderRadius: '4px',border: '1px solid #4eb94e', position: 'relative'}}>
                 <Div style={{position: 'absolute',left: '-14px',top: '7px', padding: '0'}}><Icon28Document fill={'#5181b8'} /></Div>
