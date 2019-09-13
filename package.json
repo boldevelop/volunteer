@@ -21,6 +21,7 @@
     "@vkontakte/vk-connect": "^1.5.5",
     "@vkontakte/vkui": "^2.30.2",
     "@vkontakte/vkui-connect": "^1.5.4",
+    "@vkontakte/vkui-connect-promise": "^0.2.1",
     "babel-eslint": "^9.0.0",
     "chalk": "^2.4.2",
     "core-js": "^3.1.4",

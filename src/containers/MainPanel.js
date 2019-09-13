@@ -9,11 +9,11 @@ import {
     ListItem,
     Avatar,
     Cell,
-    Separator
+    Separator, Div
 } from '@vkontakte/vkui';
 import Icon24Camera from '@vkontakte/icons/dist/24/camera';
-import Icon24FavoriteOutline from '@vkontakte/icons/dist/24/favorite_outline';
 import Organization from "../components/Organization";
+import Rating from "../components/Rating";
 import connect from "@vkontakte/vkui-connect";
 import './MainPanel.css';
 
@@ -43,10 +43,18 @@ class MainPanel extends Component {
                 </Group>}
 
                 {this.props.fetchedUser && <Group>
-                    <Cell> <Button before={<Icon24Camera/>} size="l" onClick={() => this.readQRCode()}>Считать QR-code</Button></Cell>
+                    <Cell><Button before={<Icon24Camera/>} size="l" onClick={() => this.readQRCode()}>Считать QR-code</Button></Cell>
                     <Separator/>
-                    <Cell before={<Icon24FavoriteOutline className="rating" />}><span className="rating">1670</span></Cell>
+                    <Rating rating={this.props.rating} />
                 </Group>}
+
+                <Group>
+                    <Div>
+                        <Button size="xl" level="2" onClick={this.props.go} data-to="aboutPanel">
+                            Туториал
+                        </Button>
+                    </Div>
+                </Group>
 
                 <Group title="Организации">
                     <List>
