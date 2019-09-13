@@ -2,10 +2,12 @@
   "name": "volunteer",
   "version": "1.0.0",
   "private": true,
-  "homepage": "",
+  "homepage": "https://boldevelop.github.io/volunteer/",
   "main": "index.js",
   "scripts": {
     "start": "cross-env PORT=10888 react-scripts start",
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d build",
     "build": "react-scripts build"
   },
   "keywords": [],
@@ -13,11 +15,13 @@
   "license": "MIT",
   "devDependencies": {
     "cross-env": "^5.2.0",
+    "gh-pages": "^2.1.1",
     "react-hot-loader": "^4.9.0",
     "react-scripts": "^2.1.8"
   },
   "dependencies": {
     "@vkontakte/icons": "^1.8.3",
+    "@vkontakte/vk-connect": "^1.5.5",
     "@vkontakte/vkui": "^2.30.2",
     "@vkontakte/vkui-connect": "^1.5.4",
     "babel-eslint": "^9.0.0",
@@ -25,6 +29,22 @@
     "core-js": "^3.1.4",
     "prop-types": "^15.7.2",
     "react": "^16.8.6",
-    "react-dom": "^16.8.6"
-  }
+    "react-dom": "^16.8.6",
+    "react-redux": "^7.1.1",
+    "react-router-dom": "^5.0.1",
+    "react-router5": "^7.1.0",
+    "redux": "^4.0.4",
+    "redux-logger": "^3.0.6",
+    "redux-router5": "^7.0.2",
+    "redux-thunk": "^2.3.0",
+    "router5": "^7.0.2",
+    "router5-plugin-browser": "^7.0.2",
+    "router5-plugin-logger": "^7.0.2"
+  },
+  "browserslist": [
+    ">0.2%",
+    "not dead",
+    "not ie <= 11",
+    "not op_mini all"
+  ]
 }
