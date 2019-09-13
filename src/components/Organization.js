@@ -2,7 +2,6 @@ import React from 'react';
 import {Cell, Div, Button} from "@vkontakte/vkui";
 import Icon28Document from '@vkontakte/icons/dist/28/document';
 
-
 const Organization = props => (
     <Cell className="listorg" multiline>
         <Div style={{background: '#eee', borderRadius: '7px', borderBottom: '1px solid #5181b8'}}>
@@ -15,7 +14,7 @@ const Organization = props => (
                 {props.info[6]}
             </Div>
             <Div style={{paddingLeft: '0', paddingRight: '0'}}>
-                <Button size="xl" level="secondary">Откликнуться</Button>
+                <Button size="xl" level="secondary" onClick={props.message}>Откликнуться</Button>
             </Div>
         </Div>
     </Cell>
