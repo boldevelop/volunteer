@@ -1,5 +1,5 @@
-import React, {Component} from 'react';
-import {Cell, Div, Block, List, Panel, PanelHeader} from "@vkontakte/vkui";
+import React from 'react';
+import {Cell, Div} from "@vkontakte/vkui";
 
 
 const Organization = props => (
