@@ -14,7 +14,7 @@ import {
 import Icon24Camera from '@vkontakte/icons/dist/24/camera';
 import Organization from "../components/Organization";
 import Rating from "../components/Rating";
-import connect from "@vkontakte/vkui-connect";
+import connect from '@vkontakte/vkui-connect-promise';
 import './MainPanel.css';
 
 class MainPanel extends Component {
@@ -23,10 +23,13 @@ class MainPanel extends Component {
     }
 
     message() {
-        connect.send('VKWebAppGetAuthToken', {'app_id': 7133183, 'scope': 'friends,status,messages'});
-        this.setState({
-            token: this.props.token
-        });
+        connect.send('VKWebAppGetAuthToken', {'app_id': 7133183, 'scope': 'friends,status,messages'})
+            .then(res => {
+                this.setState({
+                    token: res
+                });
+            });
+
         connect.subscribe((e) => {
             console.log(e);
         });
