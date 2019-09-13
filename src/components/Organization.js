@@ -1,10 +1,20 @@
 import React, {Component} from 'react';
-import {Cell, HeaderButton, IOS, List, Panel, PanelHeader} from "@vkontakte/vkui";
+import {Cell, Div, Block, List, Panel, PanelHeader} from "@vkontakte/vkui";
+
 
 const Organization = props => (
-    <Cell multiline>
-        {props.info[0]}
+    <Cell className="listorg"  multiline>
+        <Div style={{display: 'flex', background: '#eee'}}>
+            <Div>
+                <Div style={{background: '#eee'}}>{props.info[0]}</Div>
+                <Div>{props.info[1]}</Div>
+            </Div>
+            <Div>
+                <Div><img style={{width: '70px'}} src={ props.info[2] } /></Div>
+                <Div>{props.info[3]}</Div>
+                <Div>{props.info[4]}</Div>
+            </Div>
+        </Div>
     </Cell>
 );
-
 export default Organization;
