@@ -22,8 +22,8 @@ class MainPanel extends Component {
     componentWillMount() {
     }
 
-    componentDidMount() {
-        connect.subscribe((e) => {
+    async componentDidMount() {
+        connect.subscribe( async (e) => {
             switch (e.detail.type) {
                 case 'VKWebAppGetUserInfoResult':
                     console.log(e.detail.data);
