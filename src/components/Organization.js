@@ -3,7 +3,7 @@ import {Cell, Div, Button} from "@vkontakte/vkui";
 import Icon28Document from '@vkontakte/icons/dist/28/document';
 
 const Organization = props => (
-    <Cell className="listorg"  multiline>
+    <Cell className="listorg" multiline>
         <Div style={{background: '#eee', borderRadius: '7px', borderBottom: '1px solid #5181b8'}}>
             <Div style={{display: 'flex', justifyContent: 'space-between',alignItems: 'stretch', background: '#eee', padding: '0'}}>
                 <Div style={{background: '#eee', paddingLeft: '0', paddingRight: '0'}}><b>{props.info[0]}</b></Div>

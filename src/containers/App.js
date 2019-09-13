@@ -2,7 +2,8 @@ import React, {Component} from 'react';
 import { ConfigProvider, Root, View } from '@vkontakte/vkui';
 import vkConnect from '@vkontakte/vk-connect';
 import MainPanel from './MainPanel';
-import connect from "@vkontakte/vkui-connect";
+import AboutPanel from "./AboutPanel";
+import connect from '@vkontakte/vkui-connect-promise';
 
 const isWebView = vkConnect.isWebView();
 
@@ -14,6 +15,8 @@ class App extends Component {
         this.state = {
             activePanel: 'mainPanel',
             fetchedUser: null,
+            rating: null,
+            token: null,
             organizations: null
         };
     }
@@ -24,11 +27,18 @@ class App extends Component {
                 case 'VKWebAppGetUserInfoResult':
                     this.setState({ fetchedUser: e.detail.data });
                     break;
+                case 'VKWebAppAccessTokenReceived':
+                    console.log(e.detail.data.access_token);
+                    this.setState({
+                        token: e.detail.data.access_token
+                    });
+                    break;
                 default:
                     console.log(e.detail.type);
             }
         });
-        connect.send('VKWebAppGetUserInfo', {});
+        // connect.send('VKWebAppGetAuthToken', {'app_id': 7133183, 'scope': 'friends,status,messages'});
+        connect.send('VKWebAppGetUserInfo', {}).then(data => this.getRating());
 
         this.getOrganizations().then(res => {
             this.setState({
@@ -38,6 +48,7 @@ class App extends Component {
     }
 
     go = (e) => {
+        console.log(e.currentTarget.dataset.to);
         this.setState({ activePanel: e.currentTarget.dataset.to })
     };
 
@@ -46,14 +57,19 @@ class App extends Component {
             <ConfigProvider insets={this.props.insets} isWebView={isWebView}>
                 <Root activeView="mainView">
                     <View id="mainView"
-                          activePanel="mainPanel">
+                          activePanel={this.state.activePanel}>
                         <MainPanel
                             fetchedUser={this.state.fetchedUser}
                             id="mainPanel"
                             accessToken={this.props.accessToken}
                             go={this.go}
+                            token={this.state.token}
                             organizations={this.state.organizations}
+                            rating={this.state.rating}
                         />
+                        <AboutPanel
+                            id="aboutPanel"
+                            go={this.go}/>
                     </View>
                 </Root>
             </ConfigProvider>
@@ -71,7 +87,11 @@ class App extends Component {
         this.sheetsdata = await request.json();
         console.log(this.sheetsdata);
         return this.sheetsdata;
-    }
+    };
+
+    getRating = async () => {
+        const request = await fetch('');
+    };
 }
 
 export default App;

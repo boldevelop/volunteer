@@ -9,39 +9,27 @@ import {
     ListItem,
     Avatar,
     Cell,
-    Separator
+    Separator, Div
 } from '@vkontakte/vkui';
 import Icon24Camera from '@vkontakte/icons/dist/24/camera';
-import Icon24FavoriteOutline from '@vkontakte/icons/dist/24/favorite_outline';
 import Organization from "../components/Organization";
-import connect from "@vkontakte/vkui-connect";
+import Rating from "../components/Rating";
+import connect from '@vkontakte/vkui-connect-promise';
 import './MainPanel.css';
 
 class MainPanel extends Component {
 
-    componentWillMount() {
-    }
-
-    async componentDidMount() {
-        connect.subscribe( async (e) => {
-            switch (e.detail.type) {
-                case 'VKWebAppGetUserInfoResult':
-                    console.log(e.detail.data);
-                    //this.setState({fetchedUser: e.detail.data});
-                    break;
-                case 'VKWebAppAccessTokenReceived':
-                    console.log(e.detail.data.access_token);
-                    //this.setState({authToken: e.detail.data.access_token});
-                    break;
-                default:
-                    console.log(e.detail.type);
-            }
-        });
-        connect.send('VKWebAppGetAuthToken', {'app_id': 7133183, 'scope': 'friends,status,messages'});
+    componentDidMount() {
     }
 
     message() {
-        //connect.send('VKWebAppGetAuthToken', {"app_id": 7133183, "scope": "friends,status,messages"});   
+        connect.send('VKWebAppGetAuthToken', {'app_id': 7133183, 'scope': 'friends,status,messages'})
+            .then(res => {
+                this.setState({
+                    token: res
+                });
+            });
+
         connect.subscribe((e) => {
             console.log(e);
         });
@@ -68,10 +56,19 @@ class MainPanel extends Component {
                 </Group>}
 
                 {this.props.fetchedUser && <Group>
-                    <Cell> <Button before={<Icon24Camera/>} size="l" onClick={() => this.readQRCode()}>Считать QR-code</Button></Cell>
+                    <Cell><Button before={<Icon24Camera/>} size="l" onClick={() => this.readQRCode()}>Считать QR-code</Button></Cell>
                     <Separator/>
-                    <Cell before={<Icon24FavoriteOutline className="rating" />}><span className="rating">1670</span></Cell>
+                    <Rating rating={this.props.rating} />
                 </Group>}
+
+                <Group>
+                    <Div>
+                        {this.props.token ? this.props.token : 'token'}
+                        <Button size="xl" level="2" onClick={this.props.go} data-to="aboutPanel">
+                            Туториал
+                        </Button>
+                    </Div>
+                </Group>
 
                 <Group title="Организации">
                     <List>
