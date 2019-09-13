@@ -29,7 +29,12 @@ class App extends Component {
             }
         });
         connect.send('VKWebAppGetUserInfo', {});
-        this.getOrganizations();
+
+        this.getOrganizations().then(res => {
+            this.setState({
+                organizations: res.values
+            })
+        });
     }
 
     go = (e) => {
@@ -60,14 +65,12 @@ class App extends Component {
             {
                 headers: {
                     "Content-Type": "application/json",
-                    Authorization: "Bearer ya29.GluCBwItPX7Zctjj6gzREYSWqSWqg21HjWLiYG11ThInhecYg65nz59j2O1y1_SFFhPSq7yBPHO7NMyhgi2Qci4QLluAnK6E9PArsnKymAzQWQ0xAdIsi3sxP1b6"
+                    Authorization: "Bearer ya29.GlyCB7v0DJZcVLb64mkDwYlmbTE1Js1r0uID-CNTeymFiJ_tyhKaAVol8izcLdaEY2EqK0AK5mGJBkQJQ1NFLdJkO5bBz0Rd1rHe7qoasZ_KXT-ODsnj9Oqg7w1LRQ"
                 }
             });
         this.sheetsdata = await request.json();
         console.log(this.sheetsdata);
-        this.setState({
-            organizations: this.sheetsdata.values
-        });
+        return this.sheetsdata;
     }
 }
 
