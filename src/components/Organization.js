@@ -1,5 +1,5 @@
 import React from 'react';
-import {Cell, Div, Button} from "@vkontakte/vkui";
+import {Cell, Div, Link} from "@vkontakte/vkui";
 import Icon28Document from '@vkontakte/icons/dist/28/document';
 
 const Organization = props => (
@@ -14,7 +14,7 @@ const Organization = props => (
                 {props.info[6]}
             </Div>
             <Div style={{paddingLeft: '0', paddingRight: '0'}}>
-                <Button size="xl" level="secondary" onClick={props.message}>Откликнуться</Button>
+                <Link href="https://vk.com/im?media=&sel=-120490298" onClick={props.message} target="_blank">Откликнуться</Link>
             </Div>
         </Div>
     </Cell>

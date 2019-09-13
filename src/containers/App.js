@@ -16,7 +16,6 @@ class App extends Component {
             activePanel: 'mainPanel',
             fetchedUser: null,
             rating: null,
-            token: null,
             organizations: null
         };
     }
@@ -26,15 +25,6 @@ class App extends Component {
             switch (e.detail.type) {
                 case 'VKWebAppGetUserInfoResult':
                     this.setState({ fetchedUser: e.detail.data });
-                    break;
-                case 'VKWebAppAccessTokenReceived':
-                    alert(e.detail.data.access_token);
-                    this.setState({
-                        token: e.detail.data.access_token
-                    });
-                    break;
-                case 'VKWebAppAccessTokenFailed':
-                    alert(JSON.stringify(e.detail.data.error_data, null, 4));
                     break;
                 case 'VKWebAppOpenQRResult':
                     this.checkUserLocation(e.detail.data);
@@ -88,7 +78,7 @@ class App extends Component {
             {
                 headers: {
                     "Content-Type": "application/json",
-                    Authorization: "Bearer ya29.GluCB0Pnaksvufs5IU8khmNbovTtJQVkrzz3RN-xfXwPLjUsE3I7WQptFIiP8kNzUafDzQItlmt54AGRwghCbBd6BhN-IQSM8dCCI0-bZphjbfEQMQXOJToCgI_S"
+                    Authorization: "Bearer ya29.GluCBw4oVVauD2zhN4pzjFDfX5SY-WXiGcJqSVTKUPTsKf-PcvGM9UkD-8M2zw4pSge4p9z1LhSisXOvHzK1BKE-BOhNQNfERlzz63GweM1vxFmiIllgHMkBsBzX"
                 }
             });
         this.sheetsdata = await request.json();
@@ -100,9 +90,16 @@ class App extends Component {
         const request = await fetch('');
     };
 
-    checkUserLocation = (data) => {
+    checkUserLocation = async data => {
         if (data.hasOwnProperty('qr_data')) {
-            alert(data.qr_data);
+            const coord = data.qr_data.split(',');
+            const url = `http://127.0.0.1:8000/api/geolocation/calc/${coord[0].trim()}/${coord[1].trim()}`;
+            alert(url);
+            await fetch(url).then(res => {
+                if (res === 'OK') {
+
+                }
+            })
         } else {
 
         }

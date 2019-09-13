@@ -22,15 +22,6 @@ class MainPanel extends Component {
     componentDidMount() {
     }
 
-    message() {
-        connect.send('VKWebAppGetAuthToken', {'app_id': 7133183, 'scope': 'messages'})
-            .then(res => {
-                this.setState({
-                    token: this.props.token
-                });
-            });
-    }
-
     render() {
         const fetchedUser = this.props.fetchedUser;
         const organizations = this.props.organizations;
@@ -59,7 +50,6 @@ class MainPanel extends Component {
 
                 <Group>
                     <Div>
-                        {this.props.token ? this.props.token : 'token'}
                         <Button size="xl" level="2" onClick={this.props.go} data-to="aboutPanel">
                             Туториал
                         </Button>
@@ -69,7 +59,7 @@ class MainPanel extends Component {
                 <Group title="Организации">
                     <List>
                     {organizations && organizations.map( (org,i) => (
-                        <Organization key={i} info={org} message={this.message}/>
+                        <Organization key={i} info={org}/>
                     ))}
                     </List>
                 </Group>
