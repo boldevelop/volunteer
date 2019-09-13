@@ -7,12 +7,14 @@ import Home from './panels/Home';
 import Persik from './panels/Persik';
 
 class App extends React.Component {
+
 	constructor(props) {
 		super(props);
 
 		this.state = {
 			activePanel: 'home',
 			fetchedUser: null,
+			ogranization: null,
 		};
 	}
 

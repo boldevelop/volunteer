@@ -1,47 +1,74 @@
 import React, {Component} from 'react';
-import {connect} from 'react-redux';
 import { ConfigProvider, Root, View } from '@vkontakte/vkui';
-// import {isWebView} from '@vkontakte/vkui/src/lib/webview.ts';
 import vkConnect from '@vkontakte/vk-connect';
-import * as vkSelectors from '../store/vk/reducer';
-import * as vkActions from '../store/vk/actions';
 import MainPanel from './MainPanel';
-import { RouteNode } from 'react-router5';
+import connect from "@vkontakte/vkui-connect";
 
 const isWebView = vkConnect.isWebView();
 
 class App extends Component {
 
-    componentWillMount() {
-        this.props.dispatch(vkActions.initApp());
+    constructor(props) {
+        super(props);
+
+        this.state = {
+            activePanel: 'mainPanel',
+            fetchedUser: null,
+            organizations: null
+        };
     }
 
-    render() {
-        let activePanel = this.props.route.name === 'main' ? 'mainPanel' : 'mainPanel';
+    componentWillMount() {
+        connect.subscribe((e) => {
+            switch (e.detail.type) {
+                case 'VKWebAppGetUserInfoResult':
+                    this.setState({ fetchedUser: e.detail.data });
+                    break;
+                default:
+                    console.log(e.detail.type);
+            }
+        });
+        connect.send('VKWebAppGetUserInfo', {});
+        this.getOrganizations();
+    }
 
+    go = (e) => {
+        this.setState({ activePanel: e.currentTarget.dataset.to })
+    };
+
+    render() {
         return (
             <ConfigProvider insets={this.props.insets} isWebView={isWebView}>
                 <Root activeView="mainView">
-                    <View id="mainView" activePanel={activePanel}>
-                        <MainPanel router={this.props.router} id="mainPanel" accessToken={this.props.accessToken}/>
+                    <View id="mainView"
+                          activePanel="mainPanel">
+                        <MainPanel
+                            fetchedUser={this.state.fetchedUser}
+                            id="mainPanel"
+                            accessToken={this.props.accessToken}
+                            go={this.go}
+                            organizations={this.state.organizations}
+                        />
                     </View>
                 </Root>
             </ConfigProvider>
         );
     }
+
+    getOrganizations = async () => {
+        const request = await fetch(`https://sheets.googleapis.com/v4/spreadsheets/1X848YaAiDmhD05BkYf-s7Up__I36zrdSBqRKxdBGrFI/values/A2:E`,
+            {
+                headers: {
+                    "Content-Type": "application/json",
+                    Authorization: "Bearer ya29.GluCBwItPX7Zctjj6gzREYSWqSWqg21HjWLiYG11ThInhecYg65nz59j2O1y1_SFFhPSq7yBPHO7NMyhgi2Qci4QLluAnK6E9PArsnKymAzQWQ0xAdIsi3sxP1b6"
+                }
+            });
+        this.sheetsdata = await request.json();
+        console.log(this.sheetsdata);
+        this.setState({
+            organizations: this.sheetsdata.values
+        });
+    }
 }
 
-function mapStateToProps(state) {
-    return {
-        accessToken: vkSelectors.getAccessToken(state),
-        insets: vkSelectors.getInsets(state),
-    };
-}
-
-export default connect(mapStateToProps)(
-    (props) => (
-        <RouteNode nodeName="">
-            {({ route }) => <App route={route} {...props}/>}
-        </RouteNode>
-    )
-);
+export default App;
