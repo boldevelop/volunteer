@@ -19,7 +19,8 @@ class App extends Component {
             fetchedUser: null,
             rating: null,
             organizations: null,
-            activeModal: null
+            activeModal: null,
+            users: null
         };
     }
 
@@ -32,6 +33,14 @@ class App extends Component {
                 case 'VKWebAppOpenQRResult':
                     this.checkUserLocation(e.detail.data);
                     break;
+                case 'VKWebAppAccessTokenReceived':
+                    this.getOtherUsers(e.detail.data.access_token);
+                    break;
+                case 'VKWebAppAccessTokenFailed':
+                    break;
+                case 'VKWebAppCallAPIMethodResult':
+                    this.addRatingUsers(e.detail.data.response);
+                    break;
                 case 'VKWebAppOpenQRFailed':
                     break;
                 default:
@@ -43,11 +52,12 @@ class App extends Component {
         connect.send('VKWebAppGetUserInfo', {}).then(data => {
             this.getRating();
         });
+        connect.send("VKWebAppGetAuthToken", {"app_id": 7133183, "scope": "users.get"});
 
         this.getOrganizations().then(res => {
             setInterval(() => {
                 this.setState({
-                    organizations: res.values
+                    organizations: res
                 })
             }, 4000);
         });
@@ -72,6 +82,7 @@ class App extends Component {
                             token={this.state.token}
                             organizations={this.state.organizations}
                             rating={this.state.rating}
+                            users={this.state.users}
                         />
                         <AboutPanel
                             id="aboutPanel"
@@ -99,15 +110,8 @@ class App extends Component {
     }
 
     getOrganizations = async () => {
-        const request = await fetch(`https://sheets.googleapis.com/v4/spreadsheets/1X848YaAiDmhD05BkYf-s7Up__I36zrdSBqRKxdBGrFI/values/A2:G`,
-            {
-                headers: {
-                    "Content-Type": "application/json",
-                    Authorization: "Bearer ya29.GluDB_VPqXKuM5ng34mlllD4U404ZcMHFdT7M7ubOYKg0BvQKYQwHaX5J_ydj0e9qpgvGk7l8EGEAzzq1_iWZGI-mnL1rbSsDMDozBfSbyq1_p_3LTqXBdpgKnqn"
-                }
-            });
+        const request = await fetch('https://volunteervkmini.herokuapp.com/public/api/organisation');
         this.sheetsdata = await request.json();
-        console.log(this.sheetsdata);
         return this.sheetsdata;
     };
 
@@ -120,35 +124,17 @@ class App extends Component {
     };
 
     checkUserLocation = async data => {
-        // const url = `https://volunteervkmini.herokuapp.com/public/api/geolocation/calc/56.473126/84.951845`;
-        // const middle = await fetch(url,{
-        //     method: "get",
-        //     mode: 'no-cors',
-        // });
-        // console.log(middle);
-        // const datares = await middle.text();
-        // console.log(datares);
-        // if (datares === 'OK') {
-        //     this.setActiveModal('access')
-        // } else {
-        //     this.setActiveModal('access')
-        //     // this.setActiveModal('deny')
-        // }
         if (data.hasOwnProperty('qr_data')) {
             const coord = data.qr_data.split(',');
             const url = `https://volunteervkmini.herokuapp.com/public/api/geolocation/calc/${coord[0].trim()}/${coord[1].trim()}`;
             const middle = await fetch(url,{
-                method: "get",
-                mode: 'no-cors',
+                method: "get"
             });
-            console.log(middle);
             const datares = await middle.text();
-            console.log(datares);
             if (datares === 'OK') {
                 this.setActiveModal('access')
             } else {
-                this.setActiveModal('access')
-                // this.setActiveModal('deny')
+                this.setActiveModal('deny')
             }
         } else {
 
@@ -160,6 +146,34 @@ class App extends Component {
             activeModal: activeModal
         });
     };
+
+    getOtherUsers = async (token) => {
+        const middle = await fetch('https://volunteervkmini.herokuapp.com/public/api/rating');
+        const datares = await middle.json();
+        let sendArr = [];
+        datares.forEach(user => {
+            sendArr.push(user.name)
+        });
+        this.setState({
+            users: datares
+        });
+        connect.send("VKWebAppCallAPIMethod", {"method": "users.get", "request_id": "32test", "params":
+                {"user_ids": sendArr.join(', '), "v":"5.101", "access_token": token,
+                    "fields": "photo_200"}});
+    };
+
+    addRatingUsers = (arrUsers) => {
+        const users = this.state.users;
+        arrUsers.forEach((user, i) => {
+            users[i].photo = user.photo_200;
+            users[i].realName = user.first_name;
+        });
+        setInterval(() => {
+            this.setState({
+                users: users
+            })
+        }, 1000);
+    }
 }
 
 export default App;

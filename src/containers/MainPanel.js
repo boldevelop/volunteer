@@ -10,11 +10,15 @@ import {
     Avatar,
     Cell,
     Separator,
-    Div
+    Div,
+    Header,
+    HorizontalScroll
 } from '@vkontakte/vkui';
 import Icon24Camera from '@vkontakte/icons/dist/24/camera';
+import Icon24User from '@vkontakte/icons/dist/16/user';
 import Organization from "../components/Organization";
 import Rating from "../components/Rating";
+import UserRating from "../components/UserRating";
 import connect from '@vkontakte/vkui-connect-promise';
 import './MainPanel.css';
 
@@ -26,8 +30,19 @@ class MainPanel extends Component {
     render() {
         const fetchedUser = this.props.fetchedUser;
         const organizations = this.props.organizations;
+        const users = this.props.users;
         const rating = this.props.rating;
         const go = this.props.go;
+        const itemStyle = {
+            flexShrink: 0,
+            width: 80,
+            height: 120,
+            display: 'flex',
+            flexDirection:
+                'column',
+            alignItems: 'center',
+            fontSize: 12
+        };
 
         return (
             <Panel id={this.props.id}>
@@ -56,9 +71,31 @@ class MainPanel extends Component {
                         <Button size="xl" level="2" onClick={go} data-to="aboutPanel">
                             Туториал
                         </Button>
-                        <Button onClick={this.props.modal}>gogogogo</Button>
                     </Div>
                 </Group>
+
+                {fetchedUser && <Group>
+                    <Header level="secondary">Рейтинг пользователей</Header>
+                    <HorizontalScroll>
+                        <Div style={{ display: 'flex' }}>
+                            {users ? users.map((user, i) => (
+                                <UserRating key={i} user={user} itemStyle={itemStyle}/>
+                            )) :
+                                <>
+                                    <div style={{ ...itemStyle, paddingLeft: 4 }}>
+                                        <Avatar size={64} style={{ marginBottom: 8 }}><Icon24User /></Avatar>
+                                    </div>
+                                    <div style={itemStyle}>
+                                        <Avatar size={64} style={{ marginBottom: 8 }}><Icon24User /></Avatar>
+                                    </div>
+                                    <div style={itemStyle}>
+                                        <Avatar size={64} style={{ marginBottom: 8 }}><Icon24User /></Avatar>
+                                    </div>
+                                </>
+                            }
+                        </Div>
+                    </HorizontalScroll>
+                </Group>}
 
                 <Group title="Организации">
                     <List>
