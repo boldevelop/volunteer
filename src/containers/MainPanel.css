@@ -5,3 +5,37 @@
 .rating svg{
     fill: var(--dynamic_orange);
 }
+
+.load-div {
+    min-height: 30px;
+    border-radius: 6px;
+    box-shadow: 0 -200px 100px -120px var(--button_tertiary_foreground) inset;
+    animation: background 3s infinite alternate;
+    opacity: 0.2;
+}
+
+.title .Header__content {
+    color: var(--button_secondary_foreground);
+}
+
+.title-find .Header__content {
+    color: var(--action_sheet_action_foreground);
+}
+
+.button-cta {
+    border: 1px solid var(--action_sheet_action_foreground);
+    border-radius: 10px;
+}
+
+@keyframes background {
+    50% {
+        background: skyblue;
+        opacity: 0.5;
+        box-shadow: 0 -200px 100px -100px var(--cell_button_foreground) inset;
+    }
+}
+
+@keyframes colors {
+    from {background-color: var(--content_placeholder_icon);}
+    to {background-color: var(--button_primary_background);}
+}

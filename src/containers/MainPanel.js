@@ -9,7 +9,8 @@ import {
     ListItem,
     Avatar,
     Cell,
-    Separator, Div
+    Separator,
+    Div
 } from '@vkontakte/vkui';
 import Icon24Camera from '@vkontakte/icons/dist/24/camera';
 import Organization from "../components/Organization";
@@ -31,10 +32,10 @@ class MainPanel extends Component {
         return (
             <Panel id={this.props.id}>
                 <PanelHeader>
-
+                    Ez Volunteers
                 </PanelHeader>
 
-                {fetchedUser &&
+                {this.props.fetchedUser &&
                 <Group title="">
                     <ListItem
                         before={fetchedUser.photo_200 ? <Avatar src={fetchedUser.photo_200}/> : null}
@@ -55,15 +56,34 @@ class MainPanel extends Component {
                         <Button size="xl" level="2" onClick={go} data-to="aboutPanel">
                             Туториал
                         </Button>
-                        <Button onClick={() => this.checkUserLocation()}>sdfsdf</Button>
+                        <Button onClick={this.props.modal}>gogogogo</Button>
                     </Div>
                 </Group>
 
                 <Group title="Организации">
                     <List>
-                    {organizations && organizations.map( (org,i) => (
+                    {organizations ? organizations.map( (org,i) => (
                         <Organization key={i} info={org}/>
-                    ))}
+                    )) :
+                        <>
+                            <Cell className="load" multiline>
+                                <Div className="load-div"/>
+                            </Cell>
+
+                            <Cell className="load" multiline>
+                                <Div className="load-div"/>
+                            </Cell>
+
+                            <Cell className="load" multiline>
+                                <Div className="load-div"/>
+                            </Cell>
+
+                            <Cell className="load" multiline>
+                                <Div className="load-div"/>
+                            </Cell>
+                        </>
+                    }
+
                     </List>
                 </Group>
             </Panel>
@@ -73,16 +93,6 @@ class MainPanel extends Component {
     readQRCode = () => {
         connect.send("VKWebAppOpenQR", {});
     };
-
-    checkUserLocation = async () => {
-        const url = `http://kritbots.ru/?ul=123&lat=123`;
-        alert(url);
-        const resp = await fetch(url, {
-            method: 'get',
-        });
-        const data = await resp.json();
-        console.log(data);
-    }
 }
 
 export default MainPanel;
